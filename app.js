@@ -1,8 +1,7 @@
 (() => {
-  const { REGIONS, KINDS } = window.ATLAS;
-  const R = window.ATLAS_RENDER;
+  const R = window.ATLAS_RENDER;               // already in this page's language
+  const { REGIONS, KINDS, T } = R;
   const entries = R.entries.map((e) => ({ ...e }));
-  const byName = new Map(entries.map((e) => [e.name, e]));
   const byId = new Map(entries.map((e) => [e.id, e]));
 
   const el = (tag, cls, text) => {
@@ -36,7 +35,7 @@
   filtersReset.addEventListener("click", () => { state.region = "all"; state.kind = "all"; apply(); });
 
   function chips(row, key, labels, onPick) {
-    const all = { all: "All", ...labels };
+    const all = { all: T.all, ...labels };
     for (const [k, label] of Object.entries(all)) {
       const n = k === "all" ? entries.length : entries.filter((e) => e[key] === k).length;
       const b = el("button", "chip", label);
@@ -61,7 +60,7 @@
   function setFiltersOpen(open) {
     barFilters.hidden = !open;
     barFiltersBtn.setAttribute("aria-expanded", String(open));
-    barFiltersBtn.textContent = open ? "Close filters" : "Filters";
+    barFiltersBtn.textContent = open ? T.closeFilters : T.filters;
   }
   // Picking a filter here never moves the page; the panel stays open until closed.
   chips(regionRow2, "region", REGIONS);
@@ -94,7 +93,7 @@
     }
     for (const b of document.querySelectorAll("#regions .chip, #regions2 .chip")) b.setAttribute("aria-pressed", String(b.dataset.k === state.region));
     for (const b of document.querySelectorAll("#kinds .chip, #kinds2 .chip")) b.setAttribute("aria-pressed", String(b.dataset.k === state.kind));
-    count.textContent = count2.textContent = shown === entries.length ? `${shown} entries` : `${shown} of ${entries.length}`;
+    count.textContent = count2.textContent = T.count(shown, entries.length);
     empty.hidden = shown > 0;
     filtersReset.hidden = state.region === "all" && state.kind === "all";
   }

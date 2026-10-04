@@ -1,0 +1,84 @@
+<!doctype html>
+<!-- Source for index.html and en/index.html. Edit this, then run: node build.js -->
+<html lang="{{lang}}" class="picked">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{{head}}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:wght@400;800;900&family=Alegreya+Sans:wght@500&display=swap">
+<link rel="stylesheet" href="{{root}}style.css?v={{v:style.css}}">
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="intro">
+    <p class="eyebrow"><span>{{t.eyebrow}}</span><a class="lang-switch" href="{{switchHref}}" hreflang="{{switchLang}}" lang="{{switchLang}}">{{t.switchLabel}}</a></p>
+    <h1 class="display">{{t.title}}</h1>
+    <p>{{t.intro}}</p>
+  </header>
+
+  <section class="band" aria-label="{{t.bandLabel}}">
+    <div class="band-swatches" id="band"></div>
+  </section>
+
+  <section class="shelf" aria-labelledby="shelf-title">
+    <div class="shelf-head">
+      <h2 id="shelf-title">{{t.startHere}}</h2>
+      <p>{{t.startHereText}}</p>
+    </div>
+    <ul class="picks" id="picks">{{picks}}</ul>
+  </section>
+
+  <section class="browse" aria-label="{{t.allEntries}}">
+    <div class="controls">
+      <div class="row" id="regions" role="group" aria-label="{{t.region}}"><span class="row-label">{{t.region}}</span></div>
+      <div class="row" id="kinds" role="group" aria-label="{{t.kind}}"><span class="row-label">{{t.kind}}</span></div>
+      <div class="count-row">
+        <span class="count" id="count" aria-live="polite"></span>
+      </div>
+    </div>
+    <!-- Sits under the filters, then sticks to the top while you scroll the entries -->
+    <div class="bar" id="bar">
+      <div class="bar-inner">
+        <span class="bar-palette"><span class="bar-label">{{t.colours}}</span> <b id="palette-name">{{defaultName}}</b></span>
+        <div class="bar-right">
+          <button type="button" class="bar-btn" id="filters-reset" hidden>{{t.resetFilters}}</button>
+          <button type="button" class="bar-btn" id="bar-filters-btn" aria-expanded="false" aria-controls="bar-filters">{{t.filters}}</button>
+          <button type="button" class="bar-btn" id="to-top">{{t.toTop}}</button>
+        </div>
+      </div>
+      <div class="bar-filters" id="bar-filters" hidden>
+        <div class="bar-filters-inner">
+          <div class="row" id="regions2" role="group" aria-label="{{t.region}}"><span class="row-label">{{t.region}}</span></div>
+          <div class="row" id="kinds2" role="group" aria-label="{{t.kind}}"><span class="row-label">{{t.kind}}</span></div>
+          <div class="count-row"><span class="count" id="count2"></span></div>
+        </div>
+      </div>
+      <div class="rail" id="rail" aria-hidden="true"></div>
+    </div>
+    <div class="hint">
+      <h2 class="display">{{t.hint1}}<br>{{t.hint2}}</h2>
+      <div class="hint-note">
+        <p>{{t.hintNote}}</p>
+      </div>
+    </div>
+    <ul class="grid" id="grid">{{entries}}</ul>
+    <p class="empty" id="empty" hidden>{{t.nothing}} <button type="button" id="reset">{{t.clear}}</button></p>
+  </section>
+
+  <section class="more" aria-labelledby="more-title">
+    <h2 id="more-title">{{t.keepExploring}}</h2>
+    <div class="more-cols">
+{{more}}
+    </div>
+  </section>
+
+  <p class="ai-note"><a href="{{llmsHref}}">{{t.aiLink}}</a></p>
+</div>
+
+{{scripts}}
+</body>
+</html>

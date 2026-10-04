@@ -2,9 +2,10 @@
 
 > A field index of design languages: visual traditions from art, craft, architecture and graphic design, with a deep section on Türkiye and Anatolia. Each entry has its feel, its materials, a four-colour palette and names to look up next.
 
-127 entries across Türkiye & Anatolia, Japan, China & Korea, South & Southeast Asia, Islamic world & Middle East, Europe, Americas, Africa, Global & digital.
+127 entries across Türkiye & Anatolia, Japan, China & Korea, South & Southeast Asia, Islamic world & Middle East, Europe, Americas, Africa, Global & digital. Available in English and Turkish.
 
 ## Content
 
-- [All 127 entries, with palettes](https://orcunkok.github.io/dizayn-atlas/llms-full.txt): every design language as plain text
-- [The Atlas](https://orcunkok.github.io/dizayn-atlas/): the interactive page; pick an entry and the page recolours to its palette
+- [Tasarım Dilleri Atlası](https://orcunkok.github.io/dizayn-atlas/): the interactive page in Turkish
+- [Design Language Atlas](https://orcunkok.github.io/dizayn-atlas/en/): the interactive page in English
+- [All entries](https://orcunkok.github.io/dizayn-atlas/llms-full.txt): every entry with its palette, as plain text

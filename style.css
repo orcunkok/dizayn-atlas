@@ -45,9 +45,11 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
 .eyebrow { font: 500 .9rem/1.3 var(--sans); color: var(--ink-2); }
 
 /* Title: one large mass of ink, the text set to its side and low, like a balanced istif */
-.intro { padding-top: calc(var(--n) * 12); }
+.intro { padding-top: clamp(calc(var(--n) * 4), 8vw, calc(var(--n) * 12)); }  /* 32px on phones, up to 96px on wide screens */
 .intro { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: calc(var(--n) * 3); row-gap: calc(var(--n) * 2); align-items: end; }
-.intro .eyebrow { grid-column: 1 / -1; }
+.intro .eyebrow { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: baseline; gap: calc(var(--n) * 2); }
+/* Language switch: plain underlined word, top right */
+.lang-switch { color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
 /* The large display heading, shared by the title and the "Go on, pick one" line */
 .display { color: var(--title); font-size: clamp(3.4rem, 1.2rem + 8vw, 8.5rem); line-height: .86; letter-spacing: -.02em; font-weight: 900; text-wrap: balance; }
 .intro h1 { grid-column: 1 / span 8; }
@@ -109,7 +111,8 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
 }
 #regions, .card { scroll-margin-top: 80px; }
 [hidden] { display: none !important; }
-html { overflow-x: clip; }
+html { overflow-x: clip; scrollbar-width: none; }  /* page still scrolls; the scrollbar is just not drawn */
+html::-webkit-scrollbar { display: none; }
 /* Filters opened from the bar: same words, on the bar's colour */
 .bar-filters { max-height: 60vh; overflow: auto; border-top: 2px solid var(--on-second); }
 .bar-filters-inner { padding: calc(var(--n) * 2) 0; display: grid; gap: calc(var(--n) * 1.25); }
@@ -200,3 +203,6 @@ html { overflow-x: clip; }
 .more ul { list-style: none; margin: 0; padding: 0; display: grid; gap: calc(var(--n) * 1.5); }
 .more li { font-size: 1rem; line-height: 1.4; }
 .more li span { display: block; color: var(--ink-2); font-size: .94rem; }
+
+/* Link to the plain-text version, at the very bottom */
+.ai-note { font: 500 .9rem/1.4 var(--sans); color: var(--ink-2); }

@@ -7,7 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:wght@400;800;900&family=Alegreya+Sans:wght@500&display=swap">
-<link rel="stylesheet" href="style.css?v=20261003c">
+<link rel="stylesheet" href="style.css?v=20261003p">
 </head>
 <body>
 
@@ -15,7 +15,7 @@
 <div class="wrap">
   <header class="intro">
     <p class="eyebrow">A field index</p>
-    <h1>Design Language Atlas</h1>
+    <h1 class="display">Design Language Atlas</h1>
     <p>Visual traditions from art, craft, architecture and graphic design, with a deep section on Türkiye and Anatolia. Each entry has its feel, its materials, four colours, and names to look up next.</p>
   </header>
 
@@ -26,7 +26,7 @@
   <section class="shelf" aria-labelledby="shelf-title">
     <div class="shelf-head">
       <h2 id="shelf-title">Start here</h2>
-      <p>Eight entries that connect to what we've discussed: shadow and light, wood, Japanese restraint, and Turkish depth. Select one to jump to it.</p>
+      <p>Eight hand-picked favourites to start with: shadow and light, wood, quiet restraint and deep colour. Pick one to jump straight to it.</p>
     </div>
     <ul class="picks" id="picks"></ul>
   </section>
@@ -42,13 +42,12 @@
     <!-- Sits under the filters, then sticks to the top while you scroll the entries -->
     <div class="bar" id="bar">
       <div class="bar-inner">
-        <div class="bar-left">
-          <span class="bar-palette"><span class="bar-label">Colours</span> <b id="palette-name">Saz style</b></span>
-          <button type="button" class="bar-btn" id="bar-filters-btn" aria-expanded="false" aria-controls="bar-filters">Filters</button>
+        <span class="bar-palette"><span class="bar-label">Colours</span> <b id="palette-name">Saz style</b></span>
+        <div class="bar-right">
           <button type="button" class="bar-btn" id="filters-reset" hidden>Reset filters</button>
+          <button type="button" class="bar-btn" id="bar-filters-btn" aria-expanded="false" aria-controls="bar-filters">Filters</button>
+          <button type="button" class="bar-btn" id="to-top">To top</button>
         </div>
-        <!-- Far from the Filters button on purpose, so the two are not mixed up on touch screens -->
-        <button type="button" class="bar-btn" id="to-top">To top</button>
       </div>
       <div class="bar-filters" id="bar-filters" hidden>
         <div class="bar-filters-inner">
@@ -59,7 +58,12 @@
       </div>
       <div class="rail" id="rail" aria-hidden="true"></div>
     </div>
-    <p class="hint">Go on, pick one. The whole page will put on its colours.</p>
+    <div class="hint">
+      <p class="display">Go on,<br>pick one.</p>
+      <div class="hint-note">
+        <p>The whole page will put on its colours.</p>
+      </div>
+    </div>
     <ul class="grid" id="grid"></ul>
     <p class="empty" id="empty" hidden>Nothing matches. <button type="button" id="reset">Clear filters</button></p>
   </section>
@@ -112,7 +116,7 @@
   </section>
 </div>
 
-<script src="data.js?v=20261003c"></script>
-<script src="app.js?v=20261003c"></script>
+<script src="data.js?v=20261003p"></script>
+<script src="app.js?v=20261003p"></script>
 </body>
 </html>

@@ -135,7 +135,6 @@
   addEventListener("scroll", updateFiltersBtn, { passive: true });
   updateFiltersBtn();
   addEventListener("keydown", (ev) => { if (ev.key === "Escape" && !barFilters.hidden) setFiltersOpen(false); });
-  document.addEventListener("click", (ev) => { if (!barFilters.hidden && !bar.contains(ev.target)) setFiltersOpen(false); });
 
   function apply() {
     let shown = 0;

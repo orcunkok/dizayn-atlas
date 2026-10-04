@@ -5,7 +5,7 @@
 // and versions the CSS/JS links so browsers never use a stale copy. Safe to run any number of times.
 
 // ← Set this to the address you publish at (keep the trailing slash).
-const SITE_URL = "https://example.com/";
+const SITE_URL = "https://orcunkok.github.io/dizayn-atlas/";
 
 const fs = require("fs");
 const path = require("path");

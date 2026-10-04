@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design Language Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:wght@400;800;900&family=Alegreya+Sans:wght@500&display=swap">
+<link rel="stylesheet" href="style.css?v=20261003c">
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="intro">
+    <p class="eyebrow">A field index</p>
+    <h1>Design Language Atlas</h1>
+    <p>Visual traditions from art, craft, architecture and graphic design, with a deep section on Türkiye and Anatolia. Each entry has its feel, its materials, four colours, and names to look up next.</p>
+  </header>
+
+  <section class="band" aria-label="Current palette">
+    <div class="band-swatches" id="band"></div>
+  </section>
+
+  <section class="shelf" aria-labelledby="shelf-title">
+    <div class="shelf-head">
+      <h2 id="shelf-title">Start here</h2>
+      <p>Eight entries that connect to what we've discussed: shadow and light, wood, Japanese restraint, and Turkish depth. Select one to jump to it.</p>
+    </div>
+    <ul class="picks" id="picks"></ul>
+  </section>
+
+  <section class="browse" aria-label="All entries">
+    <div class="controls">
+      <div class="row" id="regions" role="group" aria-label="Region"><span class="row-label">Region</span></div>
+      <div class="row" id="kinds" role="group" aria-label="Kind"><span class="row-label">Kind</span></div>
+      <div class="count-row">
+        <span class="count" id="count" aria-live="polite"></span>
+      </div>
+    </div>
+    <!-- Sits under the filters, then sticks to the top while you scroll the entries -->
+    <div class="bar" id="bar">
+      <div class="bar-inner">
+        <div class="bar-left">
+          <span class="bar-palette"><span class="bar-label">Colours</span> <b id="palette-name">Saz style</b></span>
+          <button type="button" class="bar-btn" id="bar-filters-btn" aria-expanded="false" aria-controls="bar-filters">Filters</button>
+          <button type="button" class="bar-btn" id="filters-reset" hidden>Reset filters</button>
+        </div>
+        <!-- Far from the Filters button on purpose, so the two are not mixed up on touch screens -->
+        <button type="button" class="bar-btn" id="to-top">To top</button>
+      </div>
+      <div class="bar-filters" id="bar-filters" hidden>
+        <div class="bar-filters-inner">
+          <div class="row" id="regions2" role="group" aria-label="Region"><span class="row-label">Region</span></div>
+          <div class="row" id="kinds2" role="group" aria-label="Kind"><span class="row-label">Kind</span></div>
+          <div class="count-row"><span class="count" id="count2"></span></div>
+        </div>
+      </div>
+      <div class="rail" id="rail" aria-hidden="true"></div>
+    </div>
+    <p class="hint">Go on, pick one. The whole page will put on its colours.</p>
+    <ul class="grid" id="grid"></ul>
+    <p class="empty" id="empty" hidden>Nothing matches. <button type="button" id="reset">Clear filters</button></p>
+  </section>
+
+  <section class="more" aria-labelledby="more-title">
+    <h2 id="more-title">Keep exploring</h2>
+    <div class="more-cols">
+      <div>
+        <h3>Collections and boards</h3>
+        <ul>
+          <li><a href="https://www.are.na" target="_blank" rel="noopener">Are.na</a><span>Slow, research-style mood boards. Follow channels by designers you like.</span></li>
+          <li><a href="https://www.cosmos.so" target="_blank" rel="noopener">Cosmos</a><span>Visual bookmarking with good taste in its feeds.</span></li>
+          <li><a href="https://publicdomainreview.org" target="_blank" rel="noopener">The Public Domain Review</a><span>Odd and beautiful historical images, all free to use.</span></li>
+          <li><a href="https://artsandculture.google.com" target="_blank" rel="noopener">Google Arts &amp; Culture</a><span>High-resolution museum collections, including many Turkish museums.</span></li>
+          <li><a href="https://www.metmuseum.org/art/collection" target="_blank" rel="noopener">The Met collection</a><span>Open-access images; strong Islamic and Japanese departments.</span></li>
+          <li><a href="https://collection.cooperhewitt.org" target="_blank" rel="noopener">Cooper Hewitt collection</a><span>Design objects, textiles and posters, searchable by colour.</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Type and graphics</h3>
+        <ul>
+          <li><a href="https://fontsinuse.com" target="_blank" rel="noopener">Fonts In Use</a><span>Real typography archived by era, style and industry.</span></li>
+          <li><a href="https://oa.letterformarchive.org" target="_blank" rel="noopener">Letterform Archive Online</a><span>Posters, specimens and manuals scanned at high resolution.</span></li>
+          <li><a href="https://en.wikipedia.org/wiki/List_of_art_movements" target="_blank" rel="noopener">Wikipedia: list of art movements</a><span>A long, plain list to wander.</span></li>
+          <li><a href="https://aesthetics.fandom.com" target="_blank" rel="noopener">Aesthetics Wiki</a><span>Internet-era subcultural styles. Uneven, but full of names.</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Türkiye</h3>
+        <ul>
+          <li><a href="https://saltresearch.org" target="_blank" rel="noopener">SALT Research</a><span>Huge digital archive of Turkish architecture, photography and graphic design.</span></li>
+          <li><a href="https://www.peramuzesi.org.tr" target="_blank" rel="noopener">Pera Museum</a><span>Orientalist painting, Kütahya tiles, Anatolian weights and measures.</span></li>
+          <li><a href="https://www.istanbulmodern.org" target="_blank" rel="noopener">İstanbul Modern</a><span>Turkish modern and contemporary art and photography.</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Books</h3>
+        <ul>
+          <li>In Praise of Shadows<span>Jun'ichirō Tanizaki</span></li>
+          <li>Istanbul: Memories and the City<span>Orhan Pamuk, on hüzün</span></li>
+          <li>My Name Is Red<span>Orhan Pamuk, a novel about Ottoman miniaturists</span></li>
+          <li>The Grammar of Ornament<span>Owen Jones, 1856; includes a chapter on Turkish ornament</span></li>
+          <li>Wabi-Sabi for Artists, Designers, Poets &amp; Philosophers<span>Leonard Koren</span></li>
+          <li>Designing Design<span>Kenya Hara</span></li>
+          <li>Less but Better<span>Dieter Rams</span></li>
+          <li>Meggs' History of Graphic Design<span>Philip Meggs and Alston Purvis</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script src="data.js?v=20261003c"></script>
+<script src="app.js?v=20261003c"></script>
+</body>
+</html>

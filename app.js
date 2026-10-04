@@ -1,10 +1,9 @@
 (() => {
-  const { REGIONS, KINDS, E, PICKS } = window.ATLAS;
-
-  const entries = E.map(([name, region, kind, era, feel, traits, look, cols, q], i) => ({
-    id: "e" + i, name, region, kind, era, feel, traits, look, cols: cols.split(",").map((c) => "#" + c), q: q || name,
-  }));
+  const { REGIONS, KINDS } = window.ATLAS;
+  const R = window.ATLAS_RENDER;
+  const entries = R.entries.map((e) => ({ ...e }));
   const byName = new Map(entries.map((e) => [e.name, e]));
+  const byId = new Map(entries.map((e) => [e.id, e]));
 
   const el = (tag, cls, text) => {
     const n = document.createElement(tag);
@@ -12,70 +11,19 @@
     if (text != null) n.textContent = text;
     return n;
   };
-  const stripe = (cols, cls) => {
-    const s = el("div", cls);
-    s.setAttribute("aria-hidden", "true");
-    for (const c of cols) {
-      const i = el("i");
-      i.style.background = c;
-      i.dataset.hex = c;
-      s.append(i);
-    }
-    return s;
-  };
-  const link = (href, text) => {
-    const a = el("a", null, text);
-    a.href = href; a.target = "_blank"; a.rel = "noopener";
-    return a;
-  };
 
-  // Cards are built once; filtering only toggles `hidden`.
+  // Entries and the start-here list are already in the HTML (written by build.js); fill them only if the page was not built.
   const grid = document.getElementById("grid");
-  for (const e of entries) {
-    const li = el("li", "card");
-    li.id = e.id;
-    // The colour strip is also the keyboard control for "use these colours"; a click anywhere on the card does the same.
-    const use = el("button", "use");
-    use.type = "button";
-    use.setAttribute("aria-label", `Use the colours of ${e.name} for this page`);
-    use.append(stripe(e.cols, "stripe"));
-    li.append(use);
-    li.addEventListener("click", (ev) => { if (!ev.target.closest("a")) usePalette(e); });
-    const b = el("div", "card-body");
-    b.append(el("p", "meta", `${REGIONS[e.region]} · ${e.era}`));
-    b.append(el("h3", null, e.name));
-    b.append(el("p", "feel", e.feel));
-    b.append(el("p", "traits", e.traits));
-    const look = el("p", "look");
-    look.append(el("em", null, "Look up: "), document.createTextNode(e.look));
-    b.append(look);
-    const links = el("p", "links");
-    links.append(
-      link("https://en.wikipedia.org/w/index.php?search=" + encodeURIComponent(e.q), "Wikipedia"),
-      link("https://www.google.com/search?tbm=isch&q=" + encodeURIComponent(e.q + " " + e.look.split(",")[0]), "Images"),
-    );
-    b.append(links);
-    li.append(b);
-    e.node = li;
-    grid.append(li);
-  }
-
-  // Start-here shelf
   const picks = document.getElementById("picks");
-  for (const [name, why] of PICKS) {
-    const e = byName.get(name);
-    if (!e) continue;
-    const li = el("li");
-    const btn = el("button", "pick");
-    btn.type = "button";
-    btn.append(stripe(e.cols, "pick-stripe"));
-    const body = el("span", "pick-body");
-    body.append(el("b", null, e.name), el("span", null, why));
-    btn.append(body);
-    btn.addEventListener("click", () => jumpTo(e));
-    li.append(btn);
-    picks.append(li);
+  if (!grid.querySelector(".card")) grid.innerHTML = R.cardsHTML();
+  if (!picks.querySelector(".pick")) picks.innerHTML = R.picksHTML();
+
+  // A click anywhere on a card (except its links) uses its colours; the colour strip is the keyboard control for the same.
+  for (const e of entries) {
+    e.node = document.getElementById(e.id);
+    e.node.addEventListener("click", (ev) => { if (!ev.target.closest("a")) usePalette(e); });
   }
+  for (const btn of picks.querySelectorAll(".pick")) btn.addEventListener("click", () => jumpTo(byId.get(btn.dataset.id)));
 
   // Filters
   const state = { region: "all", kind: "all" };
@@ -165,41 +113,8 @@
     e.node.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
   }
 
-  // Page colours follow the chosen entry, and only its four colours are ever used: lightest = background,
-  // darkest = text, and the two in between share the sticky bar and the accent, whichever way round reads best.
-  // Text on any colour is whichever of the four reads best on it; nothing outside the four is introduced.
-  const rgb = (h) => [1, 3, 5].map((k) => parseInt(h.slice(k, k + 2), 16) / 255);
-  const lum = (h) => {
-    const [r, g, b] = rgb(h).map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
-    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-  };
-  const contrast = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); };
-  const bestOn = (bg, colors) => colors.filter((c) => c !== bg).sort((a, b) => contrast(b, bg) - contrast(a, bg))[0];
-
-  function paletteFor(cols) {
-    const byLum = [...cols].sort((a, b) => lum(b) - lum(a));
-    const paper = byLum[0], ink = byLum[3];
-    let best = null;
-    for (const [second, accent] of [[byLum[1], byLum[2]], [byLum[2], byLum[1]]]) {
-      const onSecond = bestOn(second, cols);
-      const score = Math.min(contrast(onSecond, second), 4.5) * 10 + Math.min(contrast(accent, paper), 4.5);
-      if (!best || score > best.score) best = { second, accent, onSecond, score };
-    }
-    const { second, accent, onSecond } = best;
-    const accentOk = contrast(accent, paper) >= 3;
-    return {
-      paper, ink, second, onSecond, accent,
-      title: accentOk ? accent : ink,
-      // Selected filter text: always a palette colour different from the unselected text,
-      // the one of the remaining two that reads best on the bar.
-      onSecondAccent: bestOn(second, cols.filter((c) => c !== onSecond)),
-      roles: new Map([[paper, "Background"], [ink, "Text"], [accent, "Titles, highlights & lines"], [second, "Filters & sticky bar"]]),
-    };
-  }
-
-  // Default: the Saz style (its olive deepened so it reads on the parchment).
-  const SAZ = byName.get("Saz style");
-  const DEFAULT_ROLES = new Map([["#1b1b1b", "Text"], ["#6c7a3a", "Titles, highlights & lines (deepened)"], ["#c9b78f", "Background"], ["#efe8d8", "Filters & sticky bar"]]);
+  // Page colours follow the chosen entry (roles are worked out in render.js)
+  const { paletteFor, cssVars, bestOn } = R;
 
   const root = document.documentElement.style;
   const band = document.getElementById("band");
@@ -224,20 +139,16 @@
 
   function usePalette(e) {
     const p = paletteFor(e.cols);
-    // Only the roles are set; style.css derives every other colour from them (see :root.picked)
-    const roles = { "--paper": p.paper, "--ink": p.ink, "--accent": p.accent, "--title": p.title,
-      "--second": p.second, "--on-second": p.onSecond, "--on-second-accent": p.onSecondAccent };
-    for (const [k, v] of Object.entries(roles)) root.setProperty(k, v);
+    for (const [k, v] of Object.entries(cssVars(p))) root.setProperty(k, v);
     document.documentElement.classList.add("picked");
     paint(e.cols, p.roles);
     if (chosen) chosen.node.classList.remove("chosen");
     e.node.classList.add("chosen");
     chosen = e;
     paletteName.textContent = e.name;
-    try { localStorage.setItem("atlas-palette", e.name); } catch {}
   }
 
+  // Everyone opens on the same palette (data.js DEFAULT); a pick is not remembered between visits
   apply();
-  paint(SAZ.cols, DEFAULT_ROLES);
-  try { const saved = byName.get(localStorage.getItem("atlas-palette")); if (saved) usePalette(saved); } catch {}
+  usePalette(byId.get(R.defaultEntry.id));
 })();

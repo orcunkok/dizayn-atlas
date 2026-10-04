@@ -159,5 +159,8 @@ window.ATLAS = (() => {
     ["Hüzün", "A Turkish cousin of wabi-sabi: beauty that carries weight."],
     ["In Praise of Shadows", "Where our current direction started."],
   ];
-  return { REGIONS, KINDS, E, PICKS };
+  // The palette every visitor opens with (also used for the favicon and the link preview)
+  const DEFAULT = "Göbekli Tepe & Neolithic Anatolia";
+
+  return { REGIONS, KINDS, E, PICKS, DEFAULT };
 })();
